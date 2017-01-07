@@ -1,0 +1,13 @@
+/*
+*  	All the styling
+*/
+
+html, body{
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+#frame{
+	overflow: hidden;
+}
