@@ -12,7 +12,7 @@ function Bouncer(x = 0, y = 0, radius = 5, friction = 3){
 	this.radius = radius;
 	this.weight = this.radius * (1 + (Math.random() * 0,1)); // 100% + random(0-0.1) = 0-10% of the radius!
 	this.drag = friction;
-	this.color = getRandomColor();
+	this.color = rgbaRandomRed();
 }
 
 // Calculate the pysics
