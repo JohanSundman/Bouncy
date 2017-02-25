@@ -22,3 +22,31 @@ for(var i = 0; i < BALL_COUNT; i++){
 
 // Add the balls
 client.addEnteties(balls);
+
+
+// Create the console
+var command = new Console(function(text){
+	var command = text.split(' ')[0]; // Will get the first word
+	var instruction = text.replace(command, '').trim(); // Remove the command
+	
+	if(command == "color"){
+		document.body.style.backgroundColor = instruction;
+	}
+	else if(command == "add"){
+		var balls = []; // Empty array of bouncying balls
+
+		// Get some random coordinates
+		var x = Math.floor(Math.random() * client.canvas.width);
+		var y = Math.floor(Math.random() * client.canvas.height);
+		var radius = Math.floor(Math.random() * 10) + 1;
+		if(parseInt(instruction) >= 0){
+			radius = parseInt(instruction);
+		}
+
+		// Create the bouncer
+		balls.push(new Bouncer(x, y, instruction, 2));
+
+		// Add the balls
+		client.addEnteties(balls);
+	}
+}, 2500, true, document.getElementById("container"), 15, false);
