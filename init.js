@@ -32,6 +32,9 @@ var command = new Console(function(text){
 	if(command == "color"){
 		document.body.style.backgroundColor = instruction;
 	}
+	else if(command == "clear" || command == "reset"){
+		client.list = []; // Reset the whole array storing balls
+	}
 	else if(command == "add"){
 		var balls = []; // Empty array of bouncying balls
 
@@ -39,12 +42,12 @@ var command = new Console(function(text){
 		var x = Math.floor(Math.random() * client.canvas.width);
 		var y = Math.floor(Math.random() * client.canvas.height);
 		var radius = Math.floor(Math.random() * 10) + 1;
-		if(parseInt(instruction) >= 0){
-			radius = parseInt(instruction);
+		if(instruction * 1 > 0){
+			radius = instruction * 1;
 		}
 
 		// Create the bouncer
-		balls.push(new Bouncer(x, y, instruction, 2));
+		balls.push(new Bouncer(x, y, radius, 2));
 
 		// Add the balls
 		client.addEnteties(balls);
