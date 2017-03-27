@@ -24,11 +24,27 @@ for(var i = 0; i < BALL_COUNT; i++){
 client.addEnteties(balls);
 
 
+// Command related variables
+var consoleBox = document.getElementById("container");
+var mouseToggle = true;
+
 // Create the console
 var command = new Console(function(text){
 	var command = text.split(' ')[0]; // Will get the first word
 	var instruction = text.replace(command, '').trim(); // Remove the command
 	
+	function mouseChange(state){
+		if(state){ // True
+			consoleBox.classList.remove("cursorHide");
+			client.canvas.classList.remove("cursorHide");
+		}
+		else{
+			consoleBox.classList.add("cursorHide");
+			client.canvas.classList.add("cursorHide");
+		}
+	}
+
+	// The commands
 	if(command == "color"){
 		document.body.style.backgroundColor = instruction;
 	}
@@ -52,4 +68,22 @@ var command = new Console(function(text){
 		// Add the balls
 		client.addEnteties(balls);
 	}
-}, 2500, true, document.getElementById("container"), 15, false);
+	else if(command == "mouse" || command == "cursor"){
+		if(instruction == "show"){
+			mouseToggle = true;
+		}
+		else if(instruction == "hide"){
+			mouseToggle = false;
+		}
+		else{
+			// Toggle
+			if(mouseToggle){
+				mouseToggle = false;
+			}
+			else{
+				mouseToggle = true;
+			}
+		}
+		mouseChange(mouseToggle);
+	}
+}, 2500, true, consoleBox, 15, false);
