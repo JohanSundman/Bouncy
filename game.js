@@ -4,12 +4,16 @@
 
 function Game(canvasTarget, fps){ // (string, int, 2d array with objects)
 	var self = this; // Overcome the encapsulation
+	this.loopsRunning = 0;
+	this.fps = fps;
+	this.createContext(canvasTarget);
+	this.setSize(); // Make sure to set the size
 	this.mouse = new Mouse(); // Track the mouse movement
 	this.mouse.weight = 1; // Add the weight for the gravity
-	this.fps = fps;
+	this.mouse.x = this.canvas.width / 2;
+	this.mouse.y = this.canvas.height / 2;
 	this.list = []; // Array of enteties
 	this.gravityPoint = [this.mouse]; // Array of gravity points(x,y containing objects)
-	this.createContext(canvasTarget);
 	
 	// For the resizing of the client
 	window.addEventListener("resize", function(){
@@ -23,22 +27,27 @@ function Game(canvasTarget, fps){ // (string, int, 2d array with objects)
 
 // Start the game loop
 Game.prototype.start = function(){
+	if(this.loopsRunning >= 1){
+		return false; // Already running a loop
+	}
+	// The loop starting
 	var self = this; // Overcome the encapsulation
 	this.loop = setInterval(function(){
 		self.eventLoop();
 	}, 1000 / this.fps);
+	this.loopsRunning++; // +1 loops currently running
 }
 
 // Start the game loop
 Game.prototype.stop = function(){
 	clearInterval(this.loop);
+	this.loopsRunning <= 0?this.loopsRunning=0:this.loopsRunning--; // Make sure the amount never gets below 0
 }
 
 // Create the context
 Game.prototype.createContext = function(target){
 	this.canvas = document.getElementById(target);
 	this.ctx = this.canvas.getContext("2d");
-	this.setSize(); // Make sure to set the size
 }
 
 // When the screen resizes
