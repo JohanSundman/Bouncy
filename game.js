@@ -5,8 +5,10 @@
 function Game(canvasTarget, fps){ // (string, int, 2d array with objects)
 	var self = this; // Overcome the encapsulation
 	this.mouse = new Mouse(); // Track the mouse movement
+	this.mouse.weight = 1; // Add the weight for the gravity
 	this.fps = fps;
 	this.list = []; // Array of enteties
+	this.gravityPoint = [this.mouse]; // Array of gravity points(x,y containing objects)
 	this.createContext(canvasTarget);
 	
 	// For the resizing of the client
@@ -49,6 +51,34 @@ Game.prototype.addEnteties = function(enteties){
 	this.list.push(enteties); // Add them
 }
 
+/* -- Gravity points -- */
+
+// Set the gravity points to the standard mouse value
+Game.prototype.resetGravity = function(){
+	this.gravityPoint = [this.mouse];
+}
+
+// Fetch the gravity points
+Game.prototype.getGravity = function(){
+	return this.gravityPoint;
+}
+
+// Empty the gravity points
+Game.prototype.clearGravity = function(){
+	this.gravityPoint = [];
+}
+
+// Add a gravity point
+Game.prototype.addGravity = function(point){
+	if(point.constructor === Array){ // If point is array
+		for(var i = 0; i < point.length; i++){
+			this.gravityPoint.push(point[i]);
+		}
+	}
+	else{
+		this.gravityPoint.push(point);
+	}
+}
 
 /* -- --- * -- Methods doing all the hard work -- * --- -- */
 
@@ -58,7 +88,7 @@ Game.prototype.eventLoop = function(){ // Loop throught the Array containing an 
 	var li, obj;
 	for(li = 0; li < this.list.length; li++){ // Loop the list of arrays
 		for(obj = 0; obj < this.list[li].length; obj++){
-			this.list[li][obj].physics(this.mouse, this.canvas.width, this.canvas.height);
+			this.list[li][obj].physics(this.gravityPoint, this.canvas.width, this.canvas.height);
 			this.list[li][obj].render(this.ctx);
 		}
 	}
