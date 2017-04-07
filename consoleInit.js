@@ -211,3 +211,4 @@ var command = new Console(function(text){
 		}
 	}
 }, 2500, true, consoleBox, 15, false);
+command.focus(); // Focus the command box
